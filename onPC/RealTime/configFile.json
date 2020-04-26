@@ -1,0 +1,9 @@
+{
+	"resourceCatalog": {
+		"url" : "127.0.0.1",
+		"port": "8083",
+		"broker_address" : "test.mosquitto.org",
+		"port1" : "1883",
+		"port2" : "60"
+	}       
+}

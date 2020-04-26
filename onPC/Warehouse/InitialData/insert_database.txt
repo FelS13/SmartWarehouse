@@ -1,0 +1,17 @@
+INSERT OR REPLACE INTO users(fiscal_code, grade, name, surname)
+VALUES ('SCRFLC95E13C983K', 'Sottotenente', 'Felice', 'Scarpa'),
+('RDLDNL96L30F205D', 'Sottotenente', 'Daniele', 'Radaelli');
+
+INSERT OR REPLACE INTO materials(barcode, denomination, unit_price, actual_quantity, quantity_present)
+VALUES ('A-0010-Z', 'TENDA PERNOTTAMENTO INDIVIDUALE', 245.83, 21, 21),
+('A-0020-Z', 'TELO MIMETICO, TENDA', 27.37, 69, 69),
+('A-0030-Z', 'TENDA QUADRIPOSTO', 441.57, 8, 8),
+('A-0040-Z', 'CUSTODIA PORTA MAPPA', 31.50, 8, 8),
+('A-0050-Z', 'LETTINO DA CAMPO', 58.36, 82, 82),
+('A-0060-Z', 'KIT TAVOLO E PANCHE', 121.00, 7, 7),
+('A-0070-Z', 'GRANATA 40/46 HE FRAG 92', 'N.A.', 88, 88),
+('A-0080-Z', 'B.A.M MOD. 60', 'N.A.', 2, 2),
+('A-0090-Z', 'CART. CAL 12,7 mm F-AIR 690', 'N.A.', 4, 4),
+('A-0100-Z', 'CART. CAL 7,62 mm', 'N.A.', 4, 4);
+
+

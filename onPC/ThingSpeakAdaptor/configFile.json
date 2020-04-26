@@ -1,0 +1,13 @@
+{
+	"resourceCatalog": {
+		"name" : "warehouse",
+		"url" : "https://api.thingspeak.com/update.json",
+		"channel" : "1042930",
+		"write_key" : "9M7OWHPOEPQJBX7A", 
+		"broker_address" : "test.mosquitto.org",
+		"port1" : "1883",
+		"port2" : "60"
+	}
+
+        
+}
