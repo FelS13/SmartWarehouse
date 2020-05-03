@@ -4,8 +4,8 @@ import json, os, datetime
 
 class WarehouseDB:
     def __init__(self):
-        # crea e popola il DB se non esiste ancora
-        # i dati per popolare il DB sono in un file *.txt
+        # create and populate the DB if it doesn't exist yet
+        # the data to populate the DB are in a * .txt file
         if os.path.isfile('catalog.db') == False:
             connection=sql.connect('catalog.db')
             self.cursor=connection.cursor()
