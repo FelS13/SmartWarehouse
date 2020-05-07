@@ -28,6 +28,7 @@ port = data["resourceCatalog"]["port"]
 
 
 def start(update, context):
+  """Entry point for the conversation"""
     
     update.message.reply_text(
             'This is the Telegram service of the Military Warehouse, please type in your fiscal code for the identification:')
@@ -35,6 +36,7 @@ def start(update, context):
     return FISCAL_CODE
 
 def fiscal_code(update, context):
+  """Check for the fiscal code and allow the service to the user if it is present in the database."""
     
     global fiscal 
     global port
@@ -48,14 +50,6 @@ def fiscal_code(update, context):
         return ConversationHandler.END
     
     else: 
-#        print('user allowed')
-#        dati = {'id' : user_id, 'fiscal' : fiscal}
-#        insert_id = req.put('http://127.0.0.1:8080/telegram', data = dati)
-#        if  insert_id.status_code == 404:
-#            print('\nWRONG PROCEDURE\n')
-#        else: 
-#            print("chat id updated")
-            
         update.message.reply_text( 'Welcome to the Telegram service of the Military Warehouse!\n'            
             '1) To see the complete list of your movements press /movements\n'
             '2) To know what is the available material press /materials\n'
@@ -67,6 +61,7 @@ def fiscal_code(update, context):
 
 
 def help(update, context):
+  """help command which resume all the possible actions"""
     update.message.reply_text('1) To see the complete list of your movements press /movements\n'
             '2) To know what is the available material press /materials\n')
 
@@ -76,6 +71,8 @@ def help(update, context):
     
 
 def materials(update, context):
+  """command that returns to the user the list of all the materials present in the warehouse"""
+  
     global fiscal
     global port 
     global ip    
@@ -92,16 +89,13 @@ def materials(update, context):
         new = ' '
         for ele in lista:
             new += ele.replace('{', ' ') + "\n"
-        #print(new[0:(len(new)-2)])  
         update.message.reply_text("This is the catalog of the material:\n %s ." %new[0:(len(new)-2)])
-     
-    #for key in material:
-        #update.message.reply_text(key,'->', material[key])
-   
+ 
     
     
     
 def movements(update, context):
+  """command that returns to the user the list of all its movements"""
     
     global ip
     global port
@@ -115,15 +109,14 @@ def movements(update, context):
             print(ele.replace('{', ' '))
         new = ' '
         for ele in lista:
-            new += ele.replace('{', ' ') + "\n"
-        #print(new[0:len(new)])  
+            new += ele.replace('{', ' ') + "\n" 
         update.message.reply_text("This is the list of the products you rented:\n %s " %new[0:(len(new)-2)])
     
     
 
 
 def error(update, context):
-    """Log Errors caused by Updates."""
+   """Log the errors due to updates"""
     logger.warning('Update "%s" caused error "%s"', update, context.error)
 
 
@@ -162,6 +155,7 @@ def main():
   
     
     updater.idle()
+    
 if __name__ == '__main__':
     main()
 
