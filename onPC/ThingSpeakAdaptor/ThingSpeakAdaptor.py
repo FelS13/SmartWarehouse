@@ -20,13 +20,11 @@ broker_address = data["resourceCatalog"]["broker_address"]
 port1 = data["resourceCatalog"]["port1"]
 port2 = data["resourceCatalog"]["port2"]
 name = data["resourceCatalog"]["name"]
-# --------------------------
-# ThingSpeak Connector Class
-# --------------------------
+
 
 class ThingSpeakConnector():
 
-    # constructor
+    
     def __init__(self):
         
         global name
@@ -84,7 +82,7 @@ class ThingSpeakConnector():
             print("%s connected to broker %s." % (self.ID,self.broker_address))
             rc = 1
 
-    # callback
+    # callback for messages
     def message_callback(self, client, userdata, message):
          if (message.topic == "user/ID_fiscal_code"):
             
@@ -132,8 +130,8 @@ while t<80:
     tsa.field2_data = None #items
     
 
-    time.sleep(30)
-    cnt += 1
+    time.sleep(30) #check for updates every 30sec
+    cnt += 1 #update the entry id
     t+=1
 
 tsa.stop()
