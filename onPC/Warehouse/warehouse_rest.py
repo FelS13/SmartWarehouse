@@ -1,4 +1,3 @@
-from InitialData.catalog_db_rest import WarehouseDB
 import sqlite3 as sql
 import cherrypy as cp
 import json, datetime
@@ -307,10 +306,13 @@ class UserRestDB:
         connection.close()
 
 
-class TelegramDB:
+class TelegramDB: 
+    """class to handle the Telegram bot services
+    the GET method relies on uri and params of the GET request sent by the bot
+    to provide the desired service"""
+    
     exposed = True
     def __init__(self, directory):
-        #self.db=WarehouseDB()
         self.directory = directory
 
     def GET(self, *uri, **params):
@@ -318,7 +320,7 @@ class TelegramDB:
         connection=sql.connect(self.directory) 
         cursor=connection.cursor() 
         if len(uri)>0:
-            if(uri[0] == 'moving'):
+            if(uri[0] == 'moving'): #search in DB all the materials taken by the specific user identified through the fiscal code
                 sql_search="""SELECT * FROM moving_materials WHERE fiscal_code  ='%s' """ %(params['first'])
                
                 cursor.execute(sql_search)
@@ -332,9 +334,9 @@ class TelegramDB:
                 if not list_diz:
                     raise cp.HTTPError(404)
                 list_diz=json.dumps(list_diz)[1:-1]
-                return list_diz
+                return list_diz  #return as a json
             
-            if(uri[0] == 'material'):
+            if(uri[0] == 'material'):  #search in DB all the materials in the inventory
                 sql_search="""SELECT * FROM materials"""
                 cursor.execute(sql_search)
                 result=cursor.fetchall() 
@@ -350,7 +352,7 @@ class TelegramDB:
                 list_diz=json.dumps(list_diz)[1:-1] 
                 return list_diz
             
-            elif(uri[0]=='fiscal'): 
+            elif(uri[0]=='fiscal'): #search if the fiscal code given by the telegram user is present in the DB
                 sql_search= """SELECT fiscal_code FROM users where fiscal_code = '%s' """ %(params['first'])
                 cursor.execute(sql_search)
                 result=cursor.fetchall()
