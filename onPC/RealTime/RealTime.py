@@ -2,7 +2,7 @@ import requests as req
 import json, datetime
 import paho.mqtt.client as mqttc
 
-
+# get all important information of the confi file
 file = open("configFile.json", 'r')
 json_string = file.read()
 file.close()
@@ -40,7 +40,7 @@ class RealTime(object):
             else:
                 print('\nSCAN THE BARCODE\n')
                 global In_Out 
-                In_Out = 0
+                In_Out = 0 # parameter to set which operation must be performed when a BC message is received 
                 
 
     def UserIN(self,fiscal_code):
@@ -109,7 +109,7 @@ def Del_User(user):
     global url 
     global port
     r_user=req.get('http://'+url+':'+port+'/user/{}'.format(user))
-    client.publish("user/exit", "User exiting", qos=1)
+    client.publish("user/exit", "User exiting", qos=1) # send information to thingspeak
     if r_user.status_code == 404:
         print('\nACCESS DENIED\n')
     else:
@@ -154,16 +154,16 @@ class SubscribeData(object):
         get_time = datetime.datetime.now()
         current_time = get_time.strftime("%Y-%m-%d %H:%M:%S")
         print("\nMessage received by JARVIS " + "at time: " + str(current_time))
-        if (msg.topic == "user/ID_fiscal_code"):
+        if (msg.topic == "user/ID_fiscal_code"):  # distinguesh the topics
             message_body = str(msg.payload.decode("utf-8"))
             self.fiscal_code = json.loads(message_body)
-            main(self.fiscal_code["ID"])
+            main(self.fiscal_code["ID"]) # call the main to manage the hendler
         elif (msg.topic == "user/barcode"):
             message_body = str(msg.payload.decode("utf-8"))
             self.barcode = json.loads(message_body)
-            if In_Out == 0:
+            if In_Out == 0: # with the handler you have managed what you need to do IN_OUT
                 MaterialOUT(self.barcode["BC"], self.fiscal_code["ID"])
-            elif In_Out == 1:
+            elif In_Out == 1: # in this way you can call the correct function 
                 MaterialIN(self.barcode["BC"], self.fiscal_code["ID"])
         
         
@@ -178,7 +178,7 @@ def main(fiscal_code):
 if __name__ == '__main__':
     
 
-    client = mqttc.Client('Sub')
+    client = mqttc.Client('Sub') # create a client 
 
     
     sens = SubscribeData(client)
@@ -186,15 +186,14 @@ if __name__ == '__main__':
     
     try:
 
-        client.on_connect = SubscribeData.on_connect
+        client.on_connect = SubscribeData.on_connect # attachment of callbacks
         client.on_subscribe = SubscribeData.on_subscribe
         client.on_publish = SubscribeData.on_publish
         client.on_message = SubscribeData.on_message
         client.connect(broker_ip, int(port1), int(port2))
-        client.subscribe("user/ID_fiscal_code", qos=1) #message ID 1
+        client.subscribe("user/ID_fiscal_code", qos=1) #message ID 1, subscription to multiple topic
         client.subscribe("user/barcode", qos=1) #message ID 2
-        client.publish("user/exit", qos = 1)
-        client.loop_forever()
+        client.loop_forever() # in this way we automatically manage disconnection, it must be always on 
         
     except:
         print("Problem in connecting to broker")
