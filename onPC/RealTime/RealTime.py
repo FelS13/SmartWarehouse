@@ -153,7 +153,7 @@ class SubscribeData(object):
     def on_message(self,client, userdata, msg):
         get_time = datetime.datetime.now()
         current_time = get_time.strftime("%Y-%m-%d %H:%M:%S")
-        print("\nMessage received by JARVIS " + "at time: " + str(current_time))
+        print("\nMessage received" + "at time: " + str(current_time))
         if (msg.topic == "user/ID_fiscal_code"):  # distinguesh the topics
             message_body = str(msg.payload.decode("utf-8"))
             self.fiscal_code = json.loads(message_body)
