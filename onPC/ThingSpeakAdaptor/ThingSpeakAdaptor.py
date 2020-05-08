@@ -1,9 +1,4 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Apr 23 11:37:51 2020
 
-@author: Emanuele
-"""
 
 import paho.mqtt.client as mqtt
 import json, time, datetime
@@ -86,13 +81,13 @@ class ThingSpeakConnector():
     def message_callback(self, client, userdata, message):
          if (message.topic == "user/ID_fiscal_code"):
             
-            self.field1_data =  json.loads("1") 
+            self.field1_data =  json.loads("1") #if the user enter send 1 to Field1 --> relative to users
             
          if (message.topic == "user/barcode"):
             
-            self.field2_data =  json.loads("1") 
+            self.field2_data =  json.loads("1")  #if an object is scanned send "1" to Field2 --> relative to objects
            
-         elif (message.topic == "user/exit"):
+         elif (message.topic == "user/exit"): #if an user exit set both fields to "0"
             
             self.field1_data = json.loads("0")   
             self.field2_data = json.loads("0")
@@ -101,9 +96,8 @@ class ThingSpeakConnector():
     
 
 
-# -------------
+
 # main function
-# -------------
 
 headers = {'Content-type': 'application/json', 'Accept': 'raw'}
 cnt = 1
