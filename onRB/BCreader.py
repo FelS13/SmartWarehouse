@@ -5,7 +5,7 @@ import datetime
 import cv2, json, time
 import requests as req
 
-"Reading BARCODE fiscal code from the Sensor"
+"Reading BARCODE from the Webcam"
 
 class BC_Reader(object): 
     
@@ -52,7 +52,7 @@ class BC_Reader(object):
         return
 #    
 #if __name__ == '__main__':
-#    "this is for testing we use this class in the PublishTempHum class"
+#    "this is for testing we use this class in the Publish class"
 #    data_of_ID = BC_Reader()
 #    count = 0
 #    while count<2:
