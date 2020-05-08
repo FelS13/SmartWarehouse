@@ -50,7 +50,7 @@ class ThingSpeakConnector():
       
 
 
-    # device "bootstrap"
+    # device starting
     def start(self):
         
         global port1
@@ -59,11 +59,11 @@ class ThingSpeakConnector():
         self.client_obj.connect(self.broker_address, int(port1), int(port2))
         self.client_obj.loop_start()
 
-        self.client_obj.subscribe("user/ID_fiscal_code", qos=1) #message ID 1
-        self.client_obj.subscribe("user/barcode", qos=1) #message ID 2
-        self.client_obj.subscribe("user/exit", qos=1)
+        self.client_obj.subscribe("user/ID_fiscal_code", qos=1) #subscribe to know when a user is entering
+        self.client_obj.subscribe("user/barcode", qos=1) #subscribe to know when an item is taken
+        self.client_obj.subscribe("user/exit", qos=1) #subscribe to know when a user is exiting
         
-    # device "shutdown"
+    # device stopping
     def stop(self):        
         self.client_obj.unsubscribe("user/ID_fiscal_code")
         self.client_obj.unsubscribe("user/barcode")
@@ -71,7 +71,7 @@ class ThingSpeakConnector():
         self.client_obj.disconnect()
         
 
-    # callback
+    # callback for connection
     def connect_callback(self,client,userdata,flags,rc):
         if rc == 0:
             print("%s connected to broker %s." % (self.ID,self.broker_address))
