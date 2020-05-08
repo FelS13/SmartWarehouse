@@ -79,10 +79,10 @@ class ID_Reader(object):
             pass
         return
     
-if __name__ == '__main__':
-    "this is for testing we use this class in the PublishTempHum class"
-    data_of_ID = ID_Reader()
-    count = 0
-    while count<2:
-        data_of_ID.senseID()
-        count += 1
+#if __name__ == '__main__':
+#    "this is for testing we use this class in the Publish class"
+#    data_of_ID = ID_Reader()
+#    count = 0
+#    while count<2:
+#        data_of_ID.senseID()
+#        count += 1
