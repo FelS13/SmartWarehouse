@@ -211,7 +211,9 @@ class WarehouseIN:
 
 class UserRestDB:
     exposed=True
-
+    '''
+    manage and control the accesses
+    '''
     def __init__(self, directory):
         self.directory = directory
         pass
@@ -268,8 +270,8 @@ class UserRestDB:
             VALUES ('%s','%s','%s','%s','%s');
             """ %(diz['fiscal_code'],diz['grade'],diz['name'],
                   diz['surname'], now)
-        # 
-
+        # insert into the enabled user cache the information retrieved from the lecture 
+        # of the fiscal code
         sql_search="""SELECT fiscal_code FROM enabled_users WHERE fiscal_code='%s' """ %diz['fiscal_code']
         cursor.execute(sql_search)
         result=cursor.fetchall()
@@ -284,12 +286,12 @@ class UserRestDB:
         connection.close()
 
     def PUT(self):
-        # PUT (UPDATE of CRUD) - aggiorna un'istanza
-        # funzione che riceve in ingresso un JSON con le info dell'utente abilitato
-        # e lo elimina dala tabella enabled_user nel DB
+        # PUT (UPDATE of CRUD) - update an instance
+        # method that receives as input the information on the enabled user
+        # and delete it from the enabled user cache
         connection=sql.connect(self.directory)
         cursor=connection.cursor()               
-        jstring=cp.request.body.read() #json
+        jstring=cp.request.body.read()
         diz=json.loads(jstring)       
 
         sql_search="""SELECT fiscal_code FROM enabled_users WHERE fiscal_code='%s' """ %diz['fiscal_code']
@@ -307,9 +309,11 @@ class UserRestDB:
 
 
 class TelegramDB: 
-    """class to handle the Telegram bot services
+    '''
+    class to handle the Telegram bot services
     the GET method relies on uri and params of the GET request sent by the bot
-    to provide the desired service"""
+    to provide the desired service
+    '''
     
     exposed = True
     def __init__(self, directory):
@@ -320,9 +324,10 @@ class TelegramDB:
         connection=sql.connect(self.directory) 
         cursor=connection.cursor() 
         if len(uri)>0:
-            if(uri[0] == 'moving'): #search in DB all the materials taken by the specific user identified through the fiscal code
+            if(uri[0] == 'moving'):
                 sql_search="""SELECT * FROM moving_materials WHERE fiscal_code  ='%s' """ %(params['first'])
-               
+                # search in the database moving materials all the materials taken by the
+                # user identified through the fiscal code
                 cursor.execute(sql_search)
                 result=cursor.fetchall() 
                 list_diz=[]
@@ -336,8 +341,9 @@ class TelegramDB:
                 list_diz=json.dumps(list_diz)[1:-1]
                 return list_diz  #return as a json
             
-            if(uri[0] == 'material'):  #search in DB all the materials in the inventory
+            if(uri[0] == 'material'):
                 sql_search="""SELECT * FROM materials"""
+                # search in the database materials all the the materials stred in it
                 cursor.execute(sql_search)
                 result=cursor.fetchall() 
 
@@ -352,8 +358,9 @@ class TelegramDB:
                 list_diz=json.dumps(list_diz)[1:-1] 
                 return list_diz
             
-            elif(uri[0]=='fiscal'): #search if the fiscal code given by the telegram user is present in the DB
+            elif(uri[0]=='fiscal'):
                 sql_search= """SELECT fiscal_code FROM users where fiscal_code = '%s' """ %(params['first'])
+                # search in the database users if the fiscal code given by the telegram user is present
                 cursor.execute(sql_search)
                 result=cursor.fetchall()
                 if not result:
