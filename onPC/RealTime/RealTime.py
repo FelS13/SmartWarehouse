@@ -2,7 +2,7 @@ import requests as req
 import json, datetime
 import paho.mqtt.client as mqttc
 
-# get all important information of the confi file
+# get information from the configuration file
 file = open("configFile.json", 'r')
 json_string = file.read()
 file.close()
@@ -21,15 +21,15 @@ class RealTime(object):
             
     def handler(self, command,fiscal_code):
         if command =='c':
-            self.UserOUT(fiscal_code)
+            self.UserOUT(fiscal_code) # collection of material
         if command =='r':
-            self.UserIN(fiscal_code)
+            self.UserIN(fiscal_code) # return of material
 
     def UserOUT(self,fiscal_code):
         
         global url
         global port
-        r_user=req.get('http://'+url+':'+port+'/user/{}'.format(fiscal_code))
+        r_user=req.get('http://'+url+':'+port+'/user/{}'.format(fiscal_code)) 
         if r_user.status_code == 404:
             print('\nACCESS DENIED\n')
         else:
