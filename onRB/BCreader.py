@@ -50,11 +50,3 @@ class BC_Reader(object):
             #print('BC_Reader_sensor: ERROR IN SENDING JSON')
             pass
         return
-#    
-#if __name__ == '__main__':
-#    "this is for testing we use this class in the Publish class"
-#    data_of_ID = BC_Reader()
-#    count = 0
-#    while count<2:
-#        data_of_ID.senseBC()
-#        count += 1
