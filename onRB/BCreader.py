@@ -10,26 +10,29 @@ import requests as req
 class BC_Reader(object): 
     
     def __init__(self):
-
+		#initialize barcode
         self.barcode = ''
         
     def senseBC(self): 
         try: 
             barcode=''
+	    	#start video capture
             cap = cv2.VideoCapture(0)
-
+            
+			#try to scanning a barcode, until the camera reads it
             while(True):
-			  time.sleep(0.1)
-			  while(True):
-			      _, img = cap.read()
-			      gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-			      barcodes = decode(gray_img)
-			      if barcodes:
-			          break
+			    time.sleep(0.1)
+			  	while(True):
+			      	_, img = cap.read()
+					#transform the image in a grey scale image
+					gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+					barcodes = decode(gray_img)
+					if barcodes:
+						break
 
-			  barcode = barcodes[0].data.decode('utf-8')
-			  if barcode!='':
-			      break
+				barcode = barcodes[0].data.decode('utf-8')
+				if barcode!='':
+					break
             print(barcode)
             self.barcode = barcode
         except: 
