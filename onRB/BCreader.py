@@ -16,7 +16,6 @@ class BC_Reader(object):
     def senseBC(self): 
         try: 
             barcode=''
-            cod_fisc=''
             cap = cv2.VideoCapture(0)
 
             while(True):
