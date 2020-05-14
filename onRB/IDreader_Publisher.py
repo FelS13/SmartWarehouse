@@ -31,7 +31,7 @@ class PublishData(object):
         print("mid: " + str(mid) + " has been published with success")
         print ("at time: " + str(current_time))
         print("----------------------------------------------------------------")
-        return str(mid)
+        return
 
     def publish_sensor_data(self):
         #This function will publish the data related to sensor ID 
