@@ -21,41 +21,40 @@ class ID_Reader(object):
             
             r = readers()
             reader = r[0]
-            #print ("Sto usando: ", reader)
+            #print ("I'm using: ", reader)
             connection = reader.createConnection()
             connection.connect() 
             
-            #il file che ci serve si trova in: MF>DF1>EF_DATI_PERS
-            #Seleziona del MF (master folder)
-            #CLS 00, istruzione A4 (seleziona file), P1 = P2 = 0 (seleziona per ID),
+            #file we need can be find in: MF>DF1>EF_DATI_PERS
+            #Select MF (master folder)
+            #CLS 00, instr. A4 (select file), P1 = P2 = 0 (select per ID),
             #Lc: 2, Data: 3F00 (id del MF)
             SELECT_MF = [0x00, 0xA4, 0x00, 0x00, 0x02, 0x3F, 0x00]
             data, sw1, sw2 = connection.transmit(SELECT_MF)
-            #se tutto è andato a buon fine sw1 e sw2 contengono
-            #rispettivamente i valori 0x90 e 0x00 il corrispettivo del 200 in HTTP
+            # sw1 e sw2 contain values 0x90 e 0x00 
             
-            #Seleziona del DF1...vedi sopra
+            #Select of DF1
             SELECT_DF1 = [0x00, 0xA4, 0x00, 0x00, 0x02, 0x11, 0x00]
             data, sw1, sw2 = connection.transmit(SELECT_DF1)
             
-            #Seleziona del file EF.Dati_personali... vedi sopra sopra
+            #Select file EF.Dati_personali
             SELECT_EF_PERS = [0x00, 0xA4, 0x00, 0x00, 0x02, 0x11, 0x02]
             data, sw1, sw2 = connection.transmit(SELECT_EF_PERS)
             
-            #leggiamo i dati
-            #CLS 00, istruzione B0 (leggi i dati binari contenuti nel file
+            #data reading
+            #CLS 00, instruction B0 (reads binary data in file)
             READ_BIN = [0x00, 0xB0, 0x00, 0x00, 0x00, 0x00]
             data, sw1, sw2 = connection.transmit(READ_BIN)
-            #data contiene i dati anagrafici in formato binario
-            #trasformiamo il tutto in una stringa
+            #contains anagraphic data
+            #transfor in string
             stringa_dati_personali = array.array('B', data).tostring()
             
             
             dimensione = int(stringa_dati_personali[0:6],16)
-            print ("Dimensione in byte dei dati: ", dimensione)
+            print ("Dimension of string: ", dimensione)
             
-            da = 68
-            a = 84
+            from = 68
+            to = 84
             codice_fiscale = stringa_dati_personali[da:a]
             print ("CF: ", codice_fiscale)
             
