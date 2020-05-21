@@ -7,7 +7,7 @@ import logging
 
 
 
-# Enable logging
+# used to enable the logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO)
 
@@ -111,8 +111,11 @@ def movements(update, context):
         for ele in lista:
             new += ele.replace('{', ' ') + "\n" 
         update.message.reply_text("This is the list of the products you rented:\n %s " %new[0:(len(new)-2)])
-    
-    
+
+        
+def exiting(update, context):
+   """command that ends the conversation"""
+    update.message.reply_text('Thanks for using the service!')
 
 
 def error(update, context):
@@ -133,7 +136,7 @@ def main():
             FISCAL_CODE: [MessageHandler(filters = None, callback = fiscal_code)]
             },
 
-       fallbacks = [CommandHandler('help', help)]
+       fallbacks = [CommandHandler('exit', exiting)]
     )
 
     updater.dispatcher.add_handler(conv_handler)
@@ -143,6 +146,7 @@ def main():
     updater.dispatcher.add_handler(CommandHandler('movements', movements)) #cerca movimenti utente
     updater.dispatcher.add_handler(CommandHandler('materials', materials)) #cerca materiale utente
     updater.dispatcher.add_handler(CommandHandler('help', help))
+    updater.dispatcher.add_handler(CommandHandler('exit', exiting))
     updater.dispatcher.add_error_handler(error)
      
     
