@@ -379,8 +379,8 @@ if __name__ == '__main__':
     jsonString = file.read()
     file.close()
     data = json.loads(jsonString) # covert the string in a JSON format
-    ip = data["serviceCatalog"]["ip"]
-    port = data["serviceCatalog"]["port"]
+    ip = data["resourceCatalog"]["ip"]
+    port = data["resourceCatalog"]["port"]
     directory = data["database"]
     
     
